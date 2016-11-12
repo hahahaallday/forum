@@ -1,0 +1,19 @@
+	<% if @question.errors.any? %>
+      <ul>
+      <% @question.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+	<% end %>
+
+	<div>
+		<%= f.label :topic, "Questions, Troubles and Topics you want to discuss" %>
+	</div>
+	<div>
+		<%= f.text_field :topic %>
+	</div>
+	<div>
+		<%= f.label :description%>
+	  <%= f.text_field :description , :placeholder => "Some backgrouond information about it: "  %>
+	</div>
+	

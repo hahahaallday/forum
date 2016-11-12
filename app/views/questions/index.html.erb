@@ -1,0 +1,30 @@
+<h1>Got Doubts? What is your Question?</h1>
+
+<table>	
+	<% @questions.each do |question| %>
+
+		<tr>
+			<td>
+				<!-- #number or type -->		
+			</td>
+			<td>
+				<%= link_to question.topic , question_path(question) %>
+			</td>
+			<td>
+				<%= link_to question.description , question_path(question) %>
+			</td>
+			<td>
+				<%= link_to 'Edit', edit_question_path(question) %>		
+			</td>
+			<td>
+				<%= button_to 'Delete', question_path(question), :method => :delete, :data => {:confirm => "Are you sure you want to erase your thoughts? "} %>
+			</td>
+		</tr>	
+	<% end %>
+</table>
+
+<h3>Add your questions here: </h3>
+<%= form_for @question, :url => questions_path do |f| %>
+	<%= render :partial => 'form', :locals => { :f => f } %>
+	<%= f.submit "Post and get Answers" %>
+<% end %>	

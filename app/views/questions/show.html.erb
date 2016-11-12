@@ -1,0 +1,34 @@
+<h2><%= @question.topic %></h2>
+
+<table>
+	<tr>
+		<td>
+			<p><%= simple_format(@question.description) %></p>
+		</td>
+		<td>
+				<%= link_to 'Edit', edit_question_path(@question) %>		
+		</td>
+		<td>
+			<%= link_to 'Delete', question_path(@question), :method => :delete, :data => {:confirm => "Are you sure you want to erase your thoughts? "} %>
+		</td>			
+	</tr>	
+	<tr>
+			<td>
+				<!--  -->
+			</td>
+			<td>
+				<%= @question.point %>
+			</td>
+			<td>
+				<%= @question.importance %>
+			</td>
+			<td>
+				<%= @question.priority %>
+			</td>
+			<td>
+				<% @question.urgency %>
+			</td>
+	</tr>
+</table>
+
+<p><%= link_to 'Back to Index' , questions_path %></p>
