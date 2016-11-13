@@ -3,6 +3,7 @@ class QuestionsController < ApplicationController
 	before_action :question_value, :only => [:index]
 	def index
 		@questions =Question.all
+
 	end
 
 	def new
@@ -11,10 +12,10 @@ class QuestionsController < ApplicationController
 
 	def create
 		@question = Question.new(question_params)
+		@questions =Question.all
 		if @question.save
 			flash[:notice] = "question was successfully created"
-			@questions =Question.all
-			render :index
+			redirect_to questions_url
 		else 
 			render :index	
 		end	
