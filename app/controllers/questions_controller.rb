@@ -1,4 +1,5 @@
 class QuestionsController < ApplicationController
+	before_action :authenticate_user!
 	before_action :set_questions, :only =>[ :show, :edit, :update, :destroy]
 	before_action :question_value, :only => [:index]
 	def index
@@ -13,6 +14,7 @@ class QuestionsController < ApplicationController
 	def create
 		@question = Question.new(question_params)
 		@questions =Question.all
+		@question.user = current_user
 		if @question.save
 			flash[:notice] = "question was successfully created"
 			redirect_to questions_url
@@ -46,7 +48,7 @@ class QuestionsController < ApplicationController
 	private
 	
 	def question_params
-		params.require( :question ).permit( :topic, :description)
+		params.require( :question ).permit( :topic, :description, :category_id)
 	end	 	
 
 	def set_questions

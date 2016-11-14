@@ -1,3 +1,6 @@
+	
+	
+
 	<% if @question.errors.any? %>
       <ul>
       <% @question.errors.full_messages.each do |msg| %>
@@ -9,9 +12,12 @@
 	<div class = "form-group">
 		<%= f.label :topic, "Questions, Troubles and Topics you want to discuss" %>
 	</div>
-	<div>
+	<div> 
 		<%= f.text_field :topic , :class => "form-control" %>
 	</div>
+	<div class ="form-group">
+		<%= f.collection_select(:category_id, Category.all, :id, :kind) %>
+	</div>	
 	<div class = "form-group">
 		<%= f.label :description%>
 	  <%= f.text_field :description , :placeholder => "Some backgrouond information about it... " , :class => "form-control" %>

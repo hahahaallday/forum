@@ -10,13 +10,16 @@
 			<td width = 30%>
 				<%= link_to question.topic , question_path(question) %>
 			</td>
-			<td width = 50%>
+			<td width = 40%>
 				<%= link_to question.description , question_path(question) %>
+			</td>
+			<td width = 10%>
+				<%= question.user.nickname %>
 			</td>
 			<td width = 10%>
 				<%= link_to 'Edit', edit_question_path(question) , :class => "btn btn-primary" %>		
 			</td>
-			<td width = 10%>
+			<td width = 10%>	
 				<%= button_to 'Delete', question_path(question), :method => :delete, :data => {:confirm => "Are you sure you want to erase your thoughts? "} , :class => "btn btn-danger" %>
 			</td>
 		</tr>	

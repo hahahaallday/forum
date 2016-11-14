@@ -1,0 +1,4 @@
+<%= form_for @answer, :url => question_answer_path(@question, @answer), :html => { :method => :patch } do |f| %>
+   <%= f.text_field :content %>
+   <%= f.submit %>
+<% end %>

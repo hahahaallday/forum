@@ -1,0 +1,14 @@
+<ul>
+<% @answers.each do |answer| %>
+	<li>
+	  <%= answer.content %>
+	  <%= link_to 'show', question_answer_path(@question, answer) %>
+	  <%= link_to 'edit', edit_question_answer_path(@question, answer) %>
+	  <%= link_to 'destroy', question_answer_path(@question, answer),
+	                            :method => :delete %>
+	</li>
+<% end %>
+
+</ul>
+
+	  <%= link_to 'new answer', new_question_answer_path(@question) %>
