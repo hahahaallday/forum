@@ -8,7 +8,7 @@ class QuestionsController < ApplicationController
         when "Update"
            sort_by = "answers.created_at"
         when "Reply"
-           sort_by = "answers_count"
+           sort_by = "count"
         when "created_at"
         end
         @questions = Question.includes(:answers , :user).order(sort_by).reverse_order.page(params[:page]).per(15)
