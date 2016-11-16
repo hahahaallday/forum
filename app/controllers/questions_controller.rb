@@ -3,8 +3,16 @@ class QuestionsController < ApplicationController
 	before_action :set_questions, :only =>[ :show, :edit, :update, :destroy]
 	before_action :question_value, :only => [:index]
 	def index
-		@questions =Question.all
-
+		# @questions =Question.all
+		case params[:order]
+        when "Update"
+           sort_by = "answers.created_at"
+        when "Reply"
+           sort_by = "answers_count"
+        when "created_at"
+        end
+        @questions = Question.includes(:answers , :user).order(sort_by).reverse_order.page(params[:page]).per(15)
+   
 	end
 
 	def new
@@ -25,6 +33,12 @@ class QuestionsController < ApplicationController
 
 	def show
 		@page_title = @question.topic
+		@answers = @question.answers
+		if params[:edit_answer]
+			@answer = @question.answers.find([params[:edit_answer]])
+		else
+			@answer = Answer.new
+		end	
 	end
 	
 	def edit		
@@ -41,7 +55,7 @@ class QuestionsController < ApplicationController
 
 	def destroy
 		@question.destroy
-		flash[:alert] = "event was successfully deleted"
+		flash[:alert] = "question was successfully deleted"
 		redirect_to questions_url
 	end 
 		

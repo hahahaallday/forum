@@ -30,6 +30,20 @@
 			</td>
 	</tr>
 </table>
-<%= link_to 'answers', question_answers_path(@question) %>
+
+<ul>
+<% @answers.each do |answer| %>
+	<li>
+	  <%= answer.content %> 
+		<%= link_to 'edit', edit_question_answer_path(@question, answer) %>
+		<%= link_to 'delete', question_answer_path(@question, answer), :method => :delete%>
+	</li>
+<% end %>
+<%= form_for [@question, @answer] do |f| %>
+   <%= f.text_field :content %>
+   <% f.hidden_field :count , :value => @question.answers.count %>
+   <%= f.submit %>
+<% end %>
+</ul>
 
 <p><%= link_to 'Back to Index' , questions_path , :class => "btn btn-default" %></p>
