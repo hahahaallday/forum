@@ -58,6 +58,12 @@ class QuestionsController < ApplicationController
 		flash[:alert] = "question was successfully deleted"
 		redirect_to questions_url
 	end 
+
+	def about
+		@users = User.all
+		@questions = Question.all
+		@answers = Answer.all
+	end
 		
 	private
 	

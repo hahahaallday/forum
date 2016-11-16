@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   resources :questions do
   	resources :categories, :controller => 'question_categories'
   	resources :answers, :controller => 'question_answers'
+  	collection do
+    	get :about 
+	end
   end	
 
   root :to => "questions#index"
