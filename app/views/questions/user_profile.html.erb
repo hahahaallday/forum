@@ -1,0 +1,10 @@
+<h5><%= link_to "About Us" , about_questions_path , :class=> "pull-right" %></h5>
+<h5><%= link_to "Profile page" , profile_questions_path , :class=> "pull-right" %></h5>
+
+<div class="container">
+	<%= link_to "Back To List" , questions_path , :class => "btn btn-primary pull-right" %>
+	<div class="clearfix"></div>	
+	<p><%= @user.nickname %> had <%= @user.questions.count %> Questions</p>
+	<p>and already replied <%= @user.answers.count %> Answers</p>
+	<p>contant <a href"mailto:<%= @user.email %>"><%= @user.email %></a> if you want to talk more to him</p>
+</div>

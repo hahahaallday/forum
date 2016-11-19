@@ -16,7 +16,10 @@
 		<%= f.text_field :topic , :class => "form-control" %>
 	</div>
 	<div class ="form-group">
-		<%= f.collection_select(:category_id, Category.all, :id, :kind) %>
+		<% @categories.each do |g| %>
+  <%= check_box_tag "question[category_ids][]", g.id, @question.categories.map(&:id).include?(g.id) %> <%= g.kind %>
+<% end %>
+<%= hidden_field_tag 'question[category_ids][]','' %>
 	</div>	
 	<div class = "form-group">
 		<%= f.label :description%>

@@ -1,0 +1,21 @@
+<h5><%= link_to "About Us" , about_questions_path , :class=> "pull-right" %></h5>
+<h5><%= link_to "Profile page" , profile_questions_path , :class=> "pull-right" %></h5>
+
+<div class="container">
+	<h2>Hello! <%= @user.email %></h2>
+
+	<%= link_to "Back To List" , questions_path , :class => "btn btn-primary pull-right" %>
+	<div class="clearfix"></div>
+
+	<%= form_for @user , :url => profile_questions_path do |f| %>
+		<div class="form-group">
+			<%= f.label :nickname , "NickName : " %>
+			<%= f.text_field :nickname %>
+		</div>
+		<p>You had <%= @user.questions.count %> Questions</p>
+		<p>You already reply <%= @user.answers.count %> answers</p>
+		<%= f.submit :class => "btn btn-success pull-right" %>
+	<% end %>
+
+
+</div>

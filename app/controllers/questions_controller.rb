@@ -1,19 +1,27 @@
 class QuestionsController < ApplicationController
 	before_action :authenticate_user!
-	before_action :set_questions, :only =>[ :show, :edit, :update, :destroy]
+	before_action :set_questions, :only =>[ :show, :edit, :update, :destroy ,:user_profile ]
 	before_action :question_value, :only => [:index]
 	def index
+		if params[:category_ids]
+		 	array = question_categoryship.where(:category_id =>params[:category_ids]).collect{|category_id| category_id[:question_id]}.uniq 
+		 	byebug
+		 	@questions = Question.where(:id => array).page(params[:page]).per(5)
+		else  @questions = Question.page(params[:page]).per(5)
+		end
 		# @questions =Question.all
 		case params[:order]
         when "Update"
            sort_by = "answers.created_at"
         when "Reply"
-           sort_by = "count"
+           sort_by = "answers_count"
         when "created_at"
         end
-        @questions = Question.includes(:answers , :user).order(sort_by).reverse_order.page(params[:page]).per(15)
-   
+
+        @questions = Question.includes(:answers , :user, :categories).order(sort_by).reverse_order.page(params[:page]).per(5)
+   		@categories = Category.all
 	end
+
 
 	def new
 		@question = Question.new
@@ -26,8 +34,9 @@ class QuestionsController < ApplicationController
 		if @question.save
 			flash[:notice] = "question was successfully created"
 			redirect_to questions_url
-		else 
-			render :index	
+		else
+		@categories = Category.all 
+			render 'index'	
 		end	
 	end
 
@@ -64,11 +73,21 @@ class QuestionsController < ApplicationController
 		@questions = Question.all
 		@answers = Answer.all
 	end
-		
+
+	def profile
+		@user = current_user
+		@questions = @user.answers
+		@answers = @user.answers
+	end
+
+	def user_profile
+		@user = @question.user
+	end	
+
 	private
 	
 	def question_params
-		params.require( :question ).permit( :topic, :description, :category_id)
+		params.require( :question ).permit( :topic, :description, :category_id,  :category_ids => [] )
 	end	 	
 
 	def set_questions

@@ -1,3 +1,5 @@
+<h5><%= link_to "About Us" , about_questions_path , :class=> "pull-right" %></h5>
+<h5><%= link_to "Profile page" , profile_questions_path , :class=> "pull-right" %></h5>
 <h2><%= @question.topic %></h2>
 
 <table class = "table">
@@ -13,21 +15,23 @@
 		</td>			
 	</tr>	
 	<tr>
-			<td>
-				<p>Category: <%= @question.category_kind %></p>
-			</td>
-			<td>
-				<%= @question.point %>
-			</td>
-			<td>
-				<%= @question.importance %>
-			</td>
-			<td>
-				<%= @question.priority %>
-			</td>
-			<td>
-				<% @question.urgency %>
-			</td>
+		<td>
+			<p>Category: <% @question.categories.each do |g| %>
+		<%= g.kind %>
+	<% end %></p>
+		</td>
+		<td>
+			<%= @question.point %>
+		</td>
+		<td>
+			<%= @question.importance %>
+		</td>
+		<td>
+			<%= @question.priority %>
+		</td>
+		<td>
+			<% @question.urgency %>
+		</td>
 	</tr>
 </table>
 
@@ -41,7 +45,7 @@
 <% end %>
 <%= form_for [@question, @answer] do |f| %>
    <%= f.text_field :content %>
-   <% f.hidden_field :count , :value => @question.answers.count %>
+<!--    <% #f.hidden_field :answers_count , :value => @question.answers.count %> -->
    <%= f.submit %>
 <% end %>
 </ul>

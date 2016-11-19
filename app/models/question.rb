@@ -1,8 +1,8 @@
 class Question < ApplicationRecord
-	delegate :kind, :to => :category, :prefix => true, :allow_nil =>true
 	validates_presence_of :topic
 	# validates_presence_of :type
-	belongs_to :category
 	belongs_to :user
-	has_many :answers
+	has_many :answers  , :dependent => :destroy
+	has_many :question_categoryships , :dependent => :destroy
+    has_many :categories, :through => :question_categoryships,  :dependent => :destroy
 end

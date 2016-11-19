@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161115143517) do
+ActiveRecord::Schema.define(version: 20161117090224) do
 
   create_table "answers", force: :cascade do |t|
     t.text     "content"
@@ -29,6 +29,13 @@ ActiveRecord::Schema.define(version: 20161115143517) do
     t.index ["question_id"], name: "index_categories_on_question_id"
   end
 
+  create_table "question_categoryships", force: :cascade do |t|
+    t.integer  "question_id"
+    t.integer  "category_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "questions", force: :cascade do |t|
     t.string   "topic"
     t.text     "description"
@@ -37,11 +44,13 @@ ActiveRecord::Schema.define(version: 20161115143517) do
     t.integer  "importance"
     t.integer  "priority"
     t.boolean  "urgency"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.integer  "category_id"
     t.integer  "user_id"
     t.integer  "count"
+    t.integer  "answers_countNumber"
+    t.integer  "answers_count",       default: 0
   end
 
   create_table "users", force: :cascade do |t|
