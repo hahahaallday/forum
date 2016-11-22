@@ -1,5 +1,5 @@
 <h5><%= link_to "About Us" , about_questions_path , :class=> "pull-right" %></h5>
-<h5><%= link_to "Profile page" , profile_questions_path , :class=> "pull-right" %></h5>
+<h5><%= link_to "Profile page" , profile_users_path , :class=> "pull-right" %></h5>
 <h1>Got Doubts? What is your Question?</h1>
 
 <div class="check_box">
@@ -32,7 +32,7 @@
 				<%= link_to question.description , question_path(question) %>
 			</td>
 			<td width = 10%>
-				<%= link_to question.user.nickname ,user_profile_questions_path(:id => question)  %>
+				<%= link_to question.user.nickname ,user_profile_users_path(:id => question)  %>
 			</td>
 			<td width = 10%>
 				<%= question.answers.count %>

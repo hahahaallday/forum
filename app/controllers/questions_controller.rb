@@ -73,16 +73,6 @@ class QuestionsController < ApplicationController
 		@answers = Answer.all
 	end
 
-	def profile
-		@user = current_user
-		@questions = @user.answers
-		@answers = @user.answers
-	end
-
-	def user_profile
-		@user = @question.user
-	end	
-
 	private
 	
 	def question_params

@@ -5,10 +5,15 @@ Rails.application.routes.draw do
   	resources :answers, :controller => 'question_answers'
   	collection do
     	get :about 
-    	get :profile
-      get :user_profile
 	   end
   end	
 
+  resources :users do
+    collection do
+      get :profile
+      get :user_profile
+    end
+  end  
+  
   root :to => "questions#index"
 end
