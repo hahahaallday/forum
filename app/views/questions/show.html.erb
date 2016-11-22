@@ -45,7 +45,7 @@
 <% end %>
 <%= form_for [@question, @answer] do |f| %>
    <%= f.text_field :content %>
-<!--    <% #f.hidden_field :answers_count , :value => @question.answers.count %> -->
+	<% f.hidden_field :answers_count , :value => @question.answers.count %> 
    <%= f.submit %>
 <% end %>
 </ul>

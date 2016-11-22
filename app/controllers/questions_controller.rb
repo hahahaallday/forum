@@ -3,23 +3,22 @@ class QuestionsController < ApplicationController
 	before_action :set_questions, :only =>[ :show, :edit, :update, :destroy ,:user_profile ]
 	before_action :question_value, :only => [:index]
 	def index
-		if params[:category_ids]
-		 	array = question_categoryship.where(:category_id =>params[:category_ids]).collect{|category_id| category_id[:question_id]}.uniq 
-		 	byebug
-		 	@questions = Question.where(:id => array).page(params[:page]).per(5)
-		else  @questions = Question.page(params[:page]).per(5)
-		end
 		# @questions =Question.all
 		case params[:order]
         when "Update"
-           sort_by = "answers.created_at"
+           sort_by = "answers.created_at DESC"
         when "Reply"
-           sort_by = "answers_count"
+           sort_by = "answers_count DESC"
         when "created_at"
         end
 
-        @questions = Question.includes(:answers , :user, :categories).order(sort_by).reverse_order.page(params[:page]).per(5)
+        @questions = Question.includes(:answers , :user, :categories).order(sort_by).page(params[:page]).per(5)
    		@categories = Category.all
+
+   		if params[:keyword]
+		@search_by = params[:keyword]
+		@questions = Question.includes(:answers , :user, :categories).where('categories.id'=> @search_by).order(sort_by).page(params[:page]).per(5)
+		end
 	end
 
 
@@ -87,7 +86,7 @@ class QuestionsController < ApplicationController
 	private
 	
 	def question_params
-		params.require( :question ).permit( :topic, :description, :category_id,  :category_ids => [] )
+		params.require( :question ).permit( :topic, :description, :category_id )
 	end	 	
 
 	def set_questions

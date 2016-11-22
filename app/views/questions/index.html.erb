@@ -2,16 +2,11 @@
 <h5><%= link_to "Profile page" , profile_questions_path , :class=> "pull-right" %></h5>
 <h1>Got Doubts? What is your Question?</h1>
 
-
-<%= form_for @question, :url => questions_path do |f| %>
-<div class ="form-group">
-		<% @categories.each do |g| %>
-  <%= check_box_tag "question[category_ids][]", g.id, @question.categories.map(&:id).include?(g.id) %> <%= g.kind %>
-<% end %>
-<%= hidden_field_tag 'question[category_ids][]','' %>
-	</div>	
-	<%= f.submit "Search" , :class => "btn btn-default" %>
-<% end %>	
+<div class="check_box">
+	<% @categories.each do |c| %>
+		<%= link_to c.kind, questions_path(:keyword => c) %>
+	<% end %>
+</div>
 
 <table class ="table">	
 		<tr class="sort">
