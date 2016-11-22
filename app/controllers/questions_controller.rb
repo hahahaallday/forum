@@ -50,6 +50,7 @@ class QuestionsController < ApplicationController
 	end
 	
 	def edit		
+		@categories = Category.all 
 	end
 
 	def update
@@ -76,7 +77,7 @@ class QuestionsController < ApplicationController
 	private
 	
 	def question_params
-		params.require( :question ).permit( :topic, :description, :category_id )
+		params.require( :question ).permit( :topic, :description, :category_id ,:category_ids => [])
 	end	 	
 
 	def set_questions

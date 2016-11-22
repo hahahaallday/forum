@@ -50,7 +50,7 @@
 	<% end %>
 </table>
 
-<%#= paginate @questions %>
+<%= paginate @questions %>
 
 <h3>Add your questions here: </h3>
 <%= form_for @question, :url => questions_path  do |f| %>

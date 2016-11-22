@@ -17,8 +17,8 @@
 	<tr>
 		<td>
 			<p>Category: <% @question.categories.each do |g| %>
-		<%= g.kind %>
-	<% end %></p>
+				<%= g.kind %>
+				<% end %></p>
 		</td>
 		<td>
 			<%= @question.point %>
@@ -38,7 +38,8 @@
 <ul>
 <% @answers.each do |answer| %>
 	<li>
-	  <%= answer.content %> 
+	  	<%= answer.content %> 
+	  	Answers from<%= answer.user.nickname %>
 		<%= link_to 'edit', edit_question_answer_path(@question, answer) %>
 		<%= link_to 'delete', question_answer_path(@question, answer), :method => :delete%>
 	</li>
