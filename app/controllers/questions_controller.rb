@@ -77,7 +77,7 @@ class QuestionsController < ApplicationController
 	private
 	
 	def question_params
-		params.require( :question ).permit( :topic, :description, :category_id ,:category_ids => [])
+		params.require( :question ).permit( :topic, :description, :category_id , :photo,:category_ids => [])
 	end	 	
 
 	def set_questions

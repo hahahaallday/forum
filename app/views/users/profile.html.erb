@@ -7,7 +7,7 @@
 	<%= link_to "Back To List" , questions_path , :class => "btn btn-primary pull-right" %>
 	<div class="clearfix"></div>
 
-	<%= form_for @user , :url => profile_users_path do |f| %>
+	<%= form_for @user , :url => user_path(@user) do |f| %>
 		<div class="form-group">
 			<%= f.label :nickname , "NickName : " %>
 			<%= f.text_field :nickname %>

@@ -4,15 +4,17 @@
 
 <table class = "table">
 	<tr>
-		<td>
+		<td width = 80%>
 			<p><%= simple_format(@question.description) %></p>
 		</td>
+		<% if current_user == @question.user %>
 		<td>
 				<%= link_to 'Edit', edit_question_path(@question) , :class => "btn btn-primary" %>		
 		</td>
 		<td>
 			<%= link_to 'Delete', question_path(@question), :method => :delete, :data => {:confirm => "Are you sure you want to erase your thoughts? "} ,:class => "btn btn-danger" %>
-		</td>			
+		</td>	
+		<% end %>		
 	</tr>	
 	<tr>
 		<td>
@@ -21,16 +23,11 @@
 				<% end %></p>
 		</td>
 		<td>
-			<%= @question.point %>
-		</td>
-		<td>
-			<%= @question.importance %>
-		</td>
-		<td>
-			<%= @question.priority %>
-		</td>
-		<td>
-			<% @question.urgency %>
+			<% if @question.photo.exists? %>
+				<div>
+					<%= image_tag @question.photo.url %>
+				</div>
+			<%end%>
 		</td>
 	</tr>
 </table>
@@ -39,13 +36,27 @@
 <% @answers.each do |answer| %>
 	<li>
 	  	<%= answer.content %> 
-	  	Answers from<%= answer.user.nickname %>
-		<%= link_to 'edit', edit_question_answer_path(@question, answer) %>
-		<%= link_to 'delete', question_answer_path(@question, answer), :method => :delete%>
+	  	Answers from: <%= answer.user.nickname %>
+	  	<% if current_user == answer.user %>	
+			<%= link_to 'edit', edit_question_answer_path(@question, answer) %>
+			<%= link_to 'delete', question_answer_path(@question, answer), :method => :delete%>
+		<% end %>
+		<% if answer.photo.exists? %>
+		<div>
+			<%= image_tag answer.photo.url %>
+		</div>
+<%end%>
 	</li>
 <% end %>
 <%= form_for [@question, @answer] do |f| %>
    <%= f.text_field :content %>
+   <div>
+		<%= f.file_field :photo %>
+		<% if @answer.photo.exists? %>
+		<%= label_tag :_remove_file%>
+		<%= check_box_tag :_remove_file %>
+		<% end %>
+	</div>
 	<% f.hidden_field :answers_count , :value => @question.answers.count %> 
    <%= f.submit %>
 <% end %>

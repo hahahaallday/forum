@@ -52,6 +52,6 @@ class QuestionAnswersController < ApplicationController
   end
 
   def answer_params
-  	params.require(:answer).permit(:content)
+  	params.require(:answer).permit(:content, :photo)
   end
 end
