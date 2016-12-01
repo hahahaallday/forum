@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161124104056) do
+ActiveRecord::Schema.define(version: 20161130141217) do
 
   create_table "answers", force: :cascade do |t|
     t.text     "content"
@@ -81,6 +81,7 @@ ActiveRecord::Schema.define(version: 20161124104056) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
+    t.string   "role"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["fb_uid"], name: "index_users_on_fb_uid"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

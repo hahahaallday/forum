@@ -32,7 +32,7 @@
 				<%= link_to question.description , question_path(question) %>
 			</td>
 			<td width = 10%>
-				<%= link_to question.user.nickname ,user_profile_users_path(:id => question)  %>
+				<%= link_to question.user.nickname ,user_profile_users_path(:id => question.user)  %>
 			</td>
 			<td width = 10%>
 				<%= question.answers.count %>
@@ -41,7 +41,7 @@
 				<%= question.answers.last.try(:updated_at) %>
 			</td>
 			
-			<% if current_user == question.user %>
+			<% if current_user == question.user || current_user.admin? %>
 				<td width = 10%>
 					<%= link_to 'Edit', edit_question_path(question) , :class => "btn btn-primary" %>		
 				</td>

@@ -8,7 +8,7 @@ class UsersController < ApplicationController
 	end
 
 	def user_profile
-		@user = @question.user
+		@user = User.find( params[:id] )
 	end	
 
 	def update
@@ -21,8 +21,9 @@ class UsersController < ApplicationController
 	    end
   	end
 
-  	private 
+  private 
 
+  	#api/users
 	def user_params
 		params.require( :user ).permit( :nickname)
 	end	 	

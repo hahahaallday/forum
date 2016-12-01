@@ -1,7 +1,8 @@
 class User < ApplicationRecord
 	has_many :questions , ->{ where(["created_at > ?", Time.now - 7.day]).order("id DESC") },  :dependent => :destroy
 	has_many :answers , ->{ where(["created_at > ?", Time.now - 7.day]).order("id DESC") }, :dependent => :destroy
-	
+
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -37,5 +38,9 @@ class User < ApplicationRecord
      #user.fb_raw_data = auth
      user.save!
      return user
-   end     
+   end    
+
+   def admin?
+    self.role == "admin"
+  end  
 end

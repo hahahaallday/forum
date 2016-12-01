@@ -1,0 +1,20 @@
+<h5><%= link_to "About Us" , about_questions_path , :class=> "pull-right" %></h5>
+<h5><%= link_to "Profile page" , profile_users_path , :class=> "pull-right" %></h5>
+
+<ul>
+<% @categories.each do |category| %>
+	<li>
+	  <%= category.kind %>
+	  <%= link_to 'edit', edit_admin_question_path(category) %>
+	  <%= link_to 'destroy', admin_question_path(category),:method => :delete%>
+	</li>
+<% end %>
+
+</ul>
+
+
+<%= form_for @category , :url => admin_questions_path(@category)  do |f| %>
+    <%= f.text_field :kind %>
+    <%= f.submit "Create" %>
+<% end %>
+

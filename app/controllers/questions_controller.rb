@@ -16,8 +16,8 @@ class QuestionsController < ApplicationController
    		@categories = Category.all
 
    		if params[:keyword]
-		@search_by = params[:keyword]
-		@questions = Question.includes(:answers , :user, :categories).where('categories.id'=> @search_by).order(sort_by).page(params[:page]).per(5)
+			@search_by = params[:keyword]
+			@questions = Question.includes(:answers , :user, :categories).where('categories.id'=> @search_by).order(sort_by).page(params[:page]).per(5)
 		end
 	end
 
@@ -28,13 +28,13 @@ class QuestionsController < ApplicationController
 
 	def create
 		@question = Question.new(question_params)
-		@questions =Question.all
 		@question.user = current_user
 		if @question.save
 			flash[:notice] = "question was successfully created"
 			redirect_to questions_url
 		else
-		@categories = Category.all 
+			@questions = Question.includes(:answers , :user, :categories).page(params[:page]).per(5)
+   		@categories = Category.all 
 			render 'index'	
 		end	
 	end
@@ -42,11 +42,8 @@ class QuestionsController < ApplicationController
 	def show
 		@page_title = @question.topic
 		@answers = @question.answers
-		if params[:edit_answer]
-			@answer = @question.answers.find([params[:edit_answer]])
-		else
-			@answer = Answer.new
-		end	
+		# TODO Find the answer if given answer_id
+		@answer = Answer.new
 	end
 	
 	def edit		
@@ -69,9 +66,9 @@ class QuestionsController < ApplicationController
 	end 
 
 	def about
-		@users = User.all
-		@questions = Question.all
-		@answers = Answer.all
+		@users_count = User.count
+		@questions_count = Question.count
+		@answers_count = Answer.count
 	end
 
 	private

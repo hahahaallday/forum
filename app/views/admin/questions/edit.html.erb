@@ -1,0 +1,4 @@
+<%= form_for @category, :url => admin_question_path(@category),  :method => :patch do |f| %>
+   <%= f.text_field :kind %>
+   <%= f.submit %>
+<% end %>

@@ -7,8 +7,19 @@ Rails.application.routes.draw do
     	get :about 
 	   end
   end	
+  
+  namespace :admin do
+    resources :questions
+  end
 
-  resources :users do
+  namespace :api , path: '' do
+    constraints(host:'api.localhost') do
+      resources :users
+      get '*unmatched_route', to: 'base#page_404'
+    end 
+  end  
+
+    resources :users do
     collection do
       get :profile
       get :user_profile

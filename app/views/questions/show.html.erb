@@ -7,7 +7,7 @@
 		<td width = 80%>
 			<p><%= simple_format(@question.description) %></p>
 		</td>
-		<% if current_user == @question.user %>
+		<% if current_user == @question.user ||  current_user.admin? %>
 		<td>
 				<%= link_to 'Edit', edit_question_path(@question) , :class => "btn btn-primary" %>		
 		</td>
@@ -37,7 +37,8 @@
 	<li>
 	  	<%= answer.content %> 
 	  	Answers from: <%= answer.user.nickname %>
-	  	<% if current_user == answer.user %>	
+	  	<% if current_user == answer.user ||  current_user.admin? %>	
+	  	<%# TODO Move edit to this page %>
 			<%= link_to 'edit', edit_question_answer_path(@question, answer) %>
 			<%= link_to 'delete', question_answer_path(@question, answer), :method => :delete%>
 		<% end %>
