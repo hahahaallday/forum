@@ -38,7 +38,7 @@
 				<%= question.answers.count %>
 			</td>
 			<td width = 10%>
-				<%= question.answers.last.try(:updated_at) %>
+				<%= question.answers.first.try(:updated_at) %>
 			</td>
 			
 			<% if current_user == question.user || current_user.admin? %>

@@ -1,7 +1,12 @@
 class User < ApplicationRecord
-	has_many :questions , ->{ where(["created_at > ?", Time.now - 7.day]).order("id DESC") },  :dependent => :destroy
-	has_many :answers , ->{ where(["created_at > ?", Time.now - 7.day]).order("id DESC") }, :dependent => :destroy
+	has_many :questions ,  :dependent => :destroy
+	has_many :answers ,  :dependent => :destroy
 
+  has_many :likes, :dependent => :destroy
+  has_many :liked_questions, :through => :likes, :source => :question     
+
+  has_many :subscribes, :dependent => :destroy
+  has_many :subscribed_questions, :through => :subscribes, :source => :question        
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

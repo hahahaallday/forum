@@ -1,0 +1,5 @@
+<% if current_user.subscribed_questions.include?(@question) %>
+	<div><%= button_to'UnSubscribe', question_subscribe_path(@question, @subscribe), :method => :delete, :remote => :true %></div>
+<% else %>	
+	<div><%= button_to 'Subscribe', question_subscribes_path(@question),:remote => :true %></div>
+<% end %>

@@ -1,0 +1,5 @@
+<% if current_user.liked_questions.include?(@question) %>
+	<div><%= button_to'Unlike', question_like_path(@question, @like), :method => :delete, :remote => :true %></div>
+<% else %>	
+	<div><%= button_to 'like', question_likes_path(@question),:remote => :true %></div>
+<% end %>

@@ -7,6 +7,7 @@ class Admin::QuestionsController < ApplicationController
     def index
         @categories = Category.all
         @category = Category.new
+        @user = User.all
     end
 
     def new 

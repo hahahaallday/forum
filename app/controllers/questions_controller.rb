@@ -44,6 +44,9 @@ class QuestionsController < ApplicationController
 		@answers = @question.answers
 		# TODO Find the answer if given answer_id
 		@answer = Answer.new
+		@like = current_user.likes.find_by_question_id(@question) 
+		@subscribe = current_user.subscribes.find_by_question_id(@question) 
+		
 	end
 	
 	def edit		

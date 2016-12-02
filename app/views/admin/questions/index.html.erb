@@ -2,19 +2,42 @@
 <h5><%= link_to "Profile page" , profile_users_path , :class=> "pull-right" %></h5>
 
 <ul>
-<% @categories.each do |category| %>
-	<li>
-	  <%= category.kind %>
-	  <%= link_to 'edit', edit_admin_question_path(category) %>
-	  <%= link_to 'destroy', admin_question_path(category),:method => :delete%>
-	</li>
-<% end %>
-
+	<% @categories.each do |category| %>
+		<li>
+		  <%= category.kind %>
+		  <%= link_to 'edit', edit_admin_question_path(category) %>
+		  <% unless category.question_categoryships.present? %>
+		  	<%= link_to 'destroy', admin_question_path(category),:method => :delete%>
+		  <% end %>
+		</li>
+	<% end %>
 </ul>
 
-
 <%= form_for @category , :url => admin_questions_path(@category)  do |f| %>
-    <%= f.text_field :kind %>
-    <%= f.submit "Create" %>
+  <%= f.text_field :kind %>
+  <%= f.submit "Create" %>
 <% end %>
+
+	<%= link_to "Back To List" , questions_path , :class => "btn btn-primary pull-right" %>
+	<div class="clearfix"></div>
+
+
+	<table class ="table">
+			<tr class="sort">
+				<th>User Email</th>
+				<th>User Nickname</th>
+				<th>User Role</th>
+				<th>User Question Asked</th>
+				<th>User Answer replied</th>
+			</tr>
+		<% @user.each do |user| %>
+			<tr>
+				<td><%= mail_to user.email %></td>
+				<td><%= user.nickname %></td>		
+				<td><%= user.role %></td>	
+				<td><%= user.questions.count %></td>
+				<td><%= user.answers.count %></td>				
+			</tr>	
+		<% end %>
+	</table>
 
