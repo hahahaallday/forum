@@ -3,11 +3,15 @@ class Question < ApplicationRecord
 	# validates_presence_of :type
 	belongs_to :user
 	has_many :answers  , :dependent => :destroy
+	
 	has_many :question_categoryships , :dependent => :destroy
   has_many :categories, :through => :question_categoryships,  :dependent => :destroy
 
+  has_many :question_tagships, :dependent => :destroy
+  has_many :tags, :through => :question_tagships, :dependent => :destroy
+
   has_many :likes
-  has_many :liked_users, :through => :likes, :class_name => "user"
+  has_many :liked_users, :through => :likes, :source => "user"
 
   has_many :subscribes
   has_many :subscribed_users, :through => :subscribes, :class_name => "subscribe"

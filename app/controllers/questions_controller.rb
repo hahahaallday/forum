@@ -4,15 +4,18 @@ class QuestionsController < ApplicationController
 	before_action :question_value, :only => [:index]
 	def index
 		# @questions =Question.all
-		case params[:order]
-        when "Update"
-           sort_by = "answers.created_at DESC"
-        when "Reply"
-           sort_by = "answers_count DESC"
-        when "created_at"
-        end
+		@tag = Tag.new
+		@tags = Tag.all
 
-        @questions = Question.includes(:answers , :user, :categories).order(sort_by).page(params[:page]).per(5)
+		case params[:order]
+      when "Update"
+         sort_by = "answers.created_at DESC"
+      when "Reply"
+         sort_by = "answers_count DESC"
+      when "created_at"
+      end
+
+      @questions = Question.includes(:answers , :user, :categories).order(sort_by).page(params[:page]).per(5)
    		@categories = Category.all
 
    		if params[:keyword]
@@ -29,8 +32,14 @@ class QuestionsController < ApplicationController
 	def create
 		@question = Question.new(question_params)
 		@question.user = current_user
+		@tag = params['question']['point'].split(/#/)
+		@tag.shift
 		if @question.save
 			flash[:notice] = "question was successfully created"
+			@tag.each do |tag|
+				@split_tag = Tag.create(:name => tag)
+				@question.question_tagships.create(:tag_id => @split_tag.id)
+			end	
 			redirect_to questions_url
 		else
 			@questions = Question.includes(:answers , :user, :categories).page(params[:page]).per(5)
@@ -46,7 +55,8 @@ class QuestionsController < ApplicationController
 		@answer = Answer.new
 		@like = current_user.likes.find_by_question_id(@question) 
 		@subscribe = current_user.subscribes.find_by_question_id(@question) 
-		
+		@tag = Tag.new
+		@tags = Tag.all
 	end
 	
 	def edit		
@@ -77,7 +87,7 @@ class QuestionsController < ApplicationController
 	private
 	
 	def question_params
-		params.require( :question ).permit( :topic, :description, :category_id , :photo,:category_ids => [])
+		params.require( :question ).permit( :topic, :description, :category_id , :photo,:category_ids => [],:tag_ids => [])
 	end	 	
 
 	def set_questions

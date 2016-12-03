@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 	   end
   end	
   
+  resources :tags  
+
   namespace :admin do
     resources :questions
   end
@@ -27,8 +29,6 @@ Rails.application.routes.draw do
       get :user_profile
     end
   end  
-  
-  
   
   root :to => "questions#index"
 end

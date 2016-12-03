@@ -8,3 +8,29 @@
 	<p>and already replied <%= @user.answers.count %> Answers</p>
 	<p>contant <a href"mailto:<%= @user.email %>"><%= @user.email %></a> if you want to talk more to him</p>
 </div>
+
+<table class ="table">
+	<tr class="sort">
+		<th >Questions <%= @user.nickname %> liked</th>
+		<th >Description</th>
+	</tr>	
+	<% @user.liked_questions.each do |question| %>
+		<tr>
+			<td><%= link_to question.topic , question_path(question) %></td>
+			<td><%= link_to question.description , question_path(question) %>	</td> 
+		</tr>
+	<% end %>
+</table>
+
+<table class ="table">
+	<tr class="sort">
+		<th >Questions <%= @user.nickname %> subscribed</th>
+		<th >Description</th>
+	</tr>	
+	<% @user.subscribed_questions.each do |question| %>
+		<tr>
+			<td><%= link_to question.topic , question_path(question) %></td>
+			<td><%= link_to question.description , question_path(question) %>	</td> 
+		</tr>
+	<% end %>
+</table>	

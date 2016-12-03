@@ -44,4 +44,30 @@
 		<% end %>
 	</table>
 
+	<table class ="table">
+		<tr class="sort">
+			<th >Questions you subscribed</th>
+			<th >Description</th>
+		</tr>	
+		<% @user.subscribed_questions.each do |question| %>
+			<tr>
+				<td><%= link_to question.topic , question_path(question) %></td>
+				<td><%= link_to question.description , question_path(question) %>	</td> 
+			</tr>
+		<% end %>
+	</table>
+
+
+	<table class ="table">
+		<tr class="sort">
+			<th >Questions you liked</th>
+			<th >Description</th>
+		</tr>	
+		<% @user.liked_questions.each do |question| %>
+			<tr>
+				<td><%= link_to question.topic , question_path(question) %></td>
+				<td><%= link_to question.description , question_path(question) %>	</td> 
+			</tr>
+		<% end %>
+	</table>
 	

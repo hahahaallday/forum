@@ -1,36 +1,38 @@
-	
-	
+<% if @question.errors.any? %>
+  <ul>
+    <% @question.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+<% end %>
 
-	<% if @question.errors.any? %>
-      <ul>
-      <% @question.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+<div class = "form-group">
+	<%= f.label :topic, "Questions, Troubles and Topics you want to discuss" %>
+</div>
+
+<div> 
+	<%= f.text_field :topic , :class => "form-control" %>
+</div>
+
+<div class ="form-group">
+	<% @categories.each do |g| %>
+		<%= check_box_tag "question[category_ids][]", g.id, @question.categories.map(&:id).include?(g.id) %> <%= g.kind %>
 	<% end %>
+	<%= hidden_field_tag 'question[category_ids][]','' %>
+</div>	
 
-	<div class = "form-group">
-		<%= f.label :topic, "Questions, Troubles and Topics you want to discuss" %>
-	</div>
-	<div> 
-		<%= f.text_field :topic , :class => "form-control" %>
-	</div>
-	<div class ="form-group">
-		<% @categories.each do |g| %>
-  			<%= check_box_tag "question[category_ids][]", g.id, @question.categories.map(&:id).include?(g.id) %> <%= g.kind %>
-		<% end %>
-		<%= hidden_field_tag 'question[category_ids][]','' %>
-	</div>	
+<div class ="form-group">
+		<%= f.text_field :point ,:placeholder => "Add tags here... " , :class => "form-control" %>
+</div>
 
-	<div>
-		<%= f.file_field :photo %>
-		<% if @question.photo.exists? %>
+<div>
+	<%= f.file_field :photo %>
+	<% if @question.photo.exists? %>
 		<%= label_tag :_remove_file%>
 		<%= check_box_tag :_remove_file %>
-		<% end %>
-	</div>
-	<div class = "form-group">
-		<%= f.label :description%>
-	  	<%= f.text_field :description , :placeholder => "Some backgrouond information about it... " , :class => "form-control" %>
-	</div>
-	
+	<% end %>
+</div>
+<div class = "form-group">
+	<%= f.label :description%>
+  	<%= f.text_field :description , :placeholder => "Some backgrouond information about it... " , :class => "form-control" %>
+</div>
