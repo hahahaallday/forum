@@ -21,6 +21,14 @@
 	<%= hidden_field_tag 'question[category_ids][]','' %>
 </div>	
 
+<% if @question.tags %>
+	<div class="form-group">
+		<% @question.tags.each do |tag| %>
+			#<%= tag.name %>
+		<% end %>
+	</div>	
+<% end %>
+
 <div class ="form-group">
 		<%= f.text_field :point ,:placeholder => "Add tags here... " , :class => "form-control" %>
 </div>

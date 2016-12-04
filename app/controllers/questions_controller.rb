@@ -13,14 +13,20 @@ class QuestionsController < ApplicationController
       when "Reply"
          sort_by = "answers_count DESC"
       when "created_at"
-      end
+    end
 
-      @questions = Question.includes(:answers , :user, :categories).order(sort_by).page(params[:page]).per(5)
-   		@categories = Category.all
+    @questions = Question.includes(:answers , :user, :categories, :tags).order(sort_by).page(params[:page]).per(5)
+   	@categories = Category.all
+ 
 
-   		if params[:keyword]
+   	if params[:keyword]
 			@search_by = params[:keyword]
 			@questions = Question.includes(:answers , :user, :categories).where('categories.id'=> @search_by).order(sort_by).page(params[:page]).per(5)
+		end
+
+		if params[:tagkey]
+			@tag_by = params[:tagkey]
+			@questions = Question.includes(:answers , :user, :tags).where('tags.name'=> @tag_by).order(sort_by).page(params[:page]).per(5)
 		end
 	end
 
@@ -37,7 +43,7 @@ class QuestionsController < ApplicationController
 		if @question.save
 			flash[:notice] = "question was successfully created"
 			@tag.each do |tag|
-				@split_tag = Tag.create(:name => tag)
+				@split_tag = Tag.create(:name => tag.rstrip)
 				@question.question_tagships.create(:tag_id => @split_tag.id)
 			end	
 			redirect_to questions_url

@@ -2,18 +2,20 @@
 <h5><%= link_to "Profile page" , profile_users_path , :class=> "pull-right" %></h5>
 <h2><%= @question.topic %></h2>
 
+<div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+
 <table class = "table">
 	<tr>
 		<td width = 80%>
 			<p><%= simple_format(@question.description) %></p>
 		</td>
 		<% if current_user == @question.user ||  current_user.admin? %>
-		<td>
+			<td>
 				<%= link_to 'Edit', edit_question_path(@question) , :class => "btn btn-primary" %>		
-		</td>
-		<td>
-			<%= link_to 'Delete', question_path(@question), :method => :delete, :data => {:confirm => "Are you sure you want to erase your thoughts? "} ,:class => "btn btn-danger" %>
-		</td>	
+			</td>
+			<td>
+				<%= link_to 'Delete', question_path(@question), :method => :delete, :data => {:confirm => "Are you sure you want to erase your thoughts? "} ,:class => "btn btn-danger" %>
+			</td>	
 		<% end %>		
 	</tr>	
 	<tr>
@@ -33,7 +35,7 @@
 </table>
 
 <% @question.tags.each do |tag| %>
-	#<%= tag.name %>
+	#<%= link_to tag.name , questions_path(:tagkey => tag.name) %>
 <% end %>
 
 <%= form_for @tag , :url => tags_path(@tag, :question_id => @question)  do |f| %>
@@ -52,7 +54,6 @@
 	<%= render "subscribe" %>
 </div>
 
-
 <ul>
 <% @answers.each do |answer| %>
 	<li>
@@ -70,6 +71,7 @@
 		<%end%>
 	</li>
 <% end %>
+
 <%= form_for [@question, @answer] do |f| %>
   <%= f.text_field :content %>
   <div>
