@@ -42,7 +42,13 @@ class QuestionAnswersController < ApplicationController
     @answer = @question.answers.find( params[:id] )
     @answer.destroy 
     flash[:alert] = "question was successfully deleted"
-    redirect_to question_url( @question )
+    # redirect_to question_url( @question )
+
+    #@like =nil
+    respond_to do |format| 
+      # format.html{question_path(@question)}
+      format.js {render"destroy.js.erb"}     
+    end 
   end
 
   protected

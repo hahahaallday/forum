@@ -30,6 +30,11 @@ class TagsController < ApplicationController
 	    flash[:notice] = "tag was successfully created"
 	    @question.question_tagships.create(:tag_id => @tag.id)
 	    redirect_to question_path(@question)
+
+	    #respond_to do |format| 
+      # format.html{question_path(@question)}
+      #format.js {render"create.js.erb"}     
+    #end 
 	  else
 	    render :action => :new
   	end

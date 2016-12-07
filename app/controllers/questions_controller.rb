@@ -63,6 +63,7 @@ class QuestionsController < ApplicationController
 		@subscribe = current_user.subscribes.find_by_question_id(@question) 
 		@tag = Tag.new
 		@tags = Tag.all
+		@questions = Question.includes(:answers , :user, :tags).where('tags.name'=> @tag.name).page(params[:page]).per(5)
 	end
 	
 	def edit		

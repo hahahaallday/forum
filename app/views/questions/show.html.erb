@@ -1,89 +1,104 @@
-<h5><%= link_to "About Us" , about_questions_path , :class=> "pull-right" %></h5>
-<h5><%= link_to "Profile page" , profile_users_path , :class=> "pull-right" %></h5>
-<h2><%= @question.topic %></h2>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 col-lg-2 col-sm-push-9 col-lg-push-10">
+      <nav class="navbar navbar-default navbar-fixed-side">
 
-<div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+					<div class="text-center">------Related Stories------</div>
 
-<table class = "table">
-	<tr>
-		<td width = 80%>
-			<p><%= simple_format(@question.description) %></p>
-		</td>
-		<% if current_user == @question.user ||  current_user.admin? %>
-			<td>
-				<%= link_to 'Edit', edit_question_path(@question) , :class => "btn btn-primary" %>		
-			</td>
-			<td>
-				<%= link_to 'Delete', question_path(@question), :method => :delete, :data => {:confirm => "Are you sure you want to erase your thoughts? "} ,:class => "btn btn-danger" %>
-			</td>	
-		<% end %>		
-	</tr>	
-	<tr>
-		<td>
+					<% @questions.each do |question| %>
+						<div class="text-center"><%= link_to question.topic , question_path(question) %></div>
+						<div class="text-center"><%= link_to question.description.truncate_words(20) , question_path(question) %></div>
+						<div class="clear-fix">        </div>
+					<% end %>	
+
+      </nav>
+    </div>
+    <div class="col-sm-9 col-lg-10 col-sm-pull-3 col-lg-pull-2">
+    <h2><%= @question.topic %></h2>
 			<p>Category: <% @question.categories.each do |g| %>
 				<%= g.kind %>
-				<% end %></p>
-		</td>
-		<td>
+			<% end %></p>
+
 			<% if @question.photo.exists? %>
 				<div>
-					<%= image_tag @question.photo.url %>
+					<%= image_tag @question.photo.url(:medium) %>
 				</div>
 			<%end%>
-		</td>
-	</tr>
-</table>
 
-<% @question.tags.each do |tag| %>
-	#<%= link_to tag.name , questions_path(:tagkey => tag.name) %>
-<% end %>
+			<p><%= simple_format(@question.description) %></p>
 
-<%= form_for @tag , :url => tags_path(@tag, :question_id => @question)  do |f| %>
-  <%= f.text_field :name %>
-  <%= f.submit "Create" %>
-<% end %>
+		<div id="tag_list">
+			<%= render "tag" %>
+			<% @question.tags.each do |tag| %>
+				#<%= link_to tag.name , questions_path(:tagkey => tag.name) %>
+			<% end %>
+		</div>
 
-<div id="like_button">
-	<%= render "like" %>
-		<% @question.liked_users.each do |user| %>
-		<%= link_to user.nickname ,user_profile_users_path(:id => user)  %>
-	<% end %>
-</div>
+			<% if current_user == @question.user ||  current_user.admin? %>
 
-<div id="subscribe_button">
-	<%= render "subscribe" %>
-</div>
+					<%= link_to 'Edit', edit_question_path(@question) , :class => "btn btn-primary" %>		
 
-<ul>
-<% @answers.each do |answer| %>
-	<li>
-	  <%= answer.content %> 
-  	Answers from: <%= answer.user.nickname %>
-  	<% if current_user == answer.user ||  current_user.admin? %>	
-	  	<%# TODO Move edit to this page %>
-			<%= link_to 'edit', edit_question_answer_path(@question, answer) %>
-			<%= link_to 'delete', question_answer_path(@question, answer), :method => :delete%>
+					<%= link_to 'Delete', question_path(@question), :method => :delete, :data => {:confirm => "Are you sure you want to erase your thoughts? "} ,:class => "btn btn-danger" %>
+			<% end %>		
+
+		<div id="like_button">
+			<%= render "like" %>
+				<% @question.liked_users.each do |user| %>
+				<%= link_to user.nickname ,user_profile_users_path(:id => user)  %>
+			<% end %>
+		</div>
+
+		<div id="subscribe_button">
+			<%= render "subscribe" %>
+		</div>
+		<div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+
+		<div>
+			<%#= form_for @interest_point, :url => interest_point%>
+		</div>
+
+		<div id="tag_form">
+			<%= form_for @tag , :url => tags_path(@tag, :question_id => @question)  do |f| %>
+			  <%= f.text_field :name , :placeholder => "Add Tags here to improve your feed"  %>
+			  <%= f.submit "Create" , :remote => true %>
+			<% end %>
+		</div>
+		<ul>
+		<% @answers.each do |answer| %>
+
+			<li id="answer_<%= answer.id %>">
+				<h5><%= simple_format(answer.content, {}, wrapper_tag: "div", sanitize: true) %></h5> 
+			  <div>Answers from: <%= answer.user.nickname %>
+			  <% if current_user == answer.user ||  current_user.admin? %>	
+				  	<%# TODO Move edit to this page %>
+					<%= link_to 'edit', edit_question_answer_path(@question, answer) %>
+					<%= link_to 'delete', question_answer_path(@question, answer), :method => :delete, :remote => true %>
+				<% end %></div>
+				<% if answer.photo.exists? %>
+					<div>
+						<%= image_tag answer.photo.url(:medium) %>
+					</div>
+				<%end%>		  
+			</li>
 		<% end %>
-		<% if answer.photo.exists? %>
-			<div>
-				<%= image_tag answer.photo.url %>
+
+		<%= form_for [@question, @answer] do |f| %>
+		  <div class='form-group'>
+		  	<%= f.cktext_area :content ,value: "Write your answers here.....  ",ckeditor: { language: 'us'} %>
+		  </div>
+		  <div>
+				<%= f.file_field :photo %>
+				<% if @answer.photo.exists? %>
+					<%= label_tag :_remove_file%>
+					<%= check_box_tag :_remove_file %>
+				<% end %>
 			</div>
-		<%end%>
-	</li>
-<% end %>
-
-<%= form_for [@question, @answer] do |f| %>
-  <%= f.text_field :content %>
-  <div>
-		<%= f.file_field :photo %>
-		<% if @answer.photo.exists? %>
-			<%= label_tag :_remove_file%>
-			<%= check_box_tag :_remove_file %>
+			<% f.hidden_field :answers_count , :value => @question.answers.count %> 
+		  <%= f.submit %>
 		<% end %>
-	</div>
-	<% f.hidden_field :answers_count , :value => @question.answers.count %> 
-  <%= f.submit %>
-<% end %>
-</ul>
+		</ul>
 
-<p><%= link_to 'Back to Index' , questions_path , :class => "btn btn-default" %></p>
+		<p><%= link_to 'Back to Index' , questions_path , :class => "btn btn-default" %></p>
+		</div>
+  </div>
+</div>

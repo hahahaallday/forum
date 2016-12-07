@@ -20,7 +20,7 @@ gem 'devise'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5'
+#gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
@@ -33,7 +33,7 @@ gem "kaminari"
 gem 'omniauth-facebook'
 gem "paperclip", "~> 5.0.0"
 gem 'rack-cors', require: 'rack/cors'
-
+gem 'ckeditor', '4.1.3'
 group :development, :test do
   gem 'rspec-rails'
   gem 'rails-controller-testing'
